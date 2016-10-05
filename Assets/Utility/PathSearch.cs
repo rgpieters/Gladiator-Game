@@ -22,46 +22,47 @@ public class PathSearch : MonoBehaviour
 
 	public PathSearch()
 	{
-        // Because this class is inheritaning from MonoBehavior, Start() will be the constructor
+		// Because this class is inheritaning from MonoBehavior, Start() will be the constructor
 	}
 
-    void Start()
-    {
-        //TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
-        //_tileNodeList = tempMap.tileDataMap.Tiles;
-        mapSize = -1;
-        myHeuristic = new Heuristic ();
-    }
-
-    public void SetTileNodeList(TDTile[] nodeList, int size)
-    {
-        _tileNodeList = nodeList;
-        mapSize = size;
-    }
-
-    public List<TDTile> GetSolution(/*Character.FRIENDFOE friendFoe*/)
-    {
-        List<TDTile> solution = new List<TDTile>();
-        TDTile currTile = goalTile;
-
-        //if (friendFoe == Character.FRIENDFOE.FOE)
-        //    currTile = currTile.ParentTDTile;
-
-        while (currTile != null)
-        {
-            if (currTile.IsTraversable)
-                solution.Add(currTile);
-            currTile = currTile.ParentTDTile;
-        }
-
-        solution.Reverse();
-        return solution;
-    }
-
-    public void AStar(TDTile start, TDTile goal)
+	void Start()
 	{
-        if (mapSize == -1)
-            return;
+		//TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+		//_tileNodeList = tempMap.tileDataMap.Tiles;
+		if(mapSize == 0)
+			mapSize = -1;
+		myHeuristic = new Heuristic ();
+	}
+
+	public void SetTileNodeList(TDTile[] nodeList, int size)
+	{
+		_tileNodeList = nodeList;
+		mapSize = size;
+	}
+
+	public List<TDTile> GetSolution(/*Character.FRIENDFOE friendFoe*/)
+	{
+		List<TDTile> solution = new List<TDTile>();
+		TDTile currTile = goalTile;
+
+		//if (friendFoe == Character.FRIENDFOE.FOE)
+		//    currTile = currTile.ParentTDTile;
+
+		while (currTile != null)
+		{
+			if (currTile.IsTraversable)
+				solution.Add(currTile);
+			currTile = currTile.ParentTDTile;
+		}
+
+		solution.Reverse();
+		return solution;
+	}
+
+	public void AStar(TDTile start, TDTile goal)
+	{
+		if (mapSize == -1)
+			return;
 
 		goalTile = goal;
 		closedSet = new List<TDTile> ();
