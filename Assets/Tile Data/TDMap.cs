@@ -118,5 +118,6 @@
 		_tiles[11] = new TDTile(TDTile.TYPE.MOUNTAIN, 11, new UnityEngine.Vector3(1,0,11));
 		_tiles[12] = new TDTile(TDTile.TYPE.OCEAN, 12, new UnityEngine.Vector3(2,0,12));
 		_tiles[13] = new TDTile (TDTile.TYPE.MOUNTAIN, 13, new UnityEngine.Vector3 (2, 3, 13));
-	}
+		//_tiles[14] = new TDTile (TDTile.TYPE.MOUNTAIN, 14, new UnityEngine.Vector3 (2, 3, 13));
+    }
 }
