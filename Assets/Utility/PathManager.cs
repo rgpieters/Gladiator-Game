@@ -31,8 +31,9 @@ public class PathManager : MonoBehaviour
 
 		if(prevSelectedTileIndex != selectedTileIndex)
 		{
-			myPathSearch.AStar(tempMap.tileDataMap.GetTile(tempCharacterManager.GetCurrentCharacterTileIndex()), tempMap.tileDataMap.GetTile(selectedTileIndex));
-			pathSolution = myPathSearch.GetSolution();
+			//myPathSearch.AStar(tempMap.tileDataMap.GetTile(tempCharacterManager.GetCurrentCharacterTileIndex()), tempMap.tileDataMap.GetTile(selectedTileIndex));
+			myPathSearch.AStar(tempMap.tileDataMap.GetTile(0), tempMap.tileDataMap.GetTile(selectedTileIndex));
+            pathSolution = myPathSearch.GetSolution();
 
             tempCharacterManager.SetCharacterPath(pathSolution);
 
@@ -75,11 +76,12 @@ public class PathManager : MonoBehaviour
 		prevSelectedTileIndex = selectedTileIndex;
 		selectedTileIndex = (int)(x + (z * tileSizeX));
 
-		Component selectedTile = transform.FindChild("SelectedTile");
-		selectedTile.transform.position = new Vector3(x + 0.5f, .001f, z + 0.5f);
-		
 		TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
 		selectedTileData = tempMap.tileDataMap.GetTile(selectedTileIndex);
+
+
+		Component selectedTile = transform.FindChild("SelectedTile");
+		selectedTile.transform.position = new Vector3(x + 0.5f, tempMap.tileDataMap.GetTile(selectedTileIndex).Pos.y + 0.0001f, z + 0.5f);
 
 		if(selectedTileData.IsTraversable)
 		{

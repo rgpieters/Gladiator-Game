@@ -14,6 +14,7 @@ public class BaseCharacter : MonoBehaviour
 	public float rotSpeed = 10.0f;
 	List<TDTile> pathList;  // This was initially public. I don't know why it would need to be
 	int pathIndex;
+    int currentTileIndex;
 
 
 	// Use this for initialization
@@ -22,11 +23,13 @@ public class BaseCharacter : MonoBehaviour
 	
 	}
 
-	public void InitializeCharacter() // TODO: Change to protected when classes are inheriting
+	public void InitializeCharacter(int tileIndex) // TODO: Change to protected when classes are inheriting
 	{
 		pathList = new List<TDTile>();
 		pathIndex = -1;
-	}
+        currentTileIndex = tileIndex;
+
+    }
 
 	public void SetPathList(List<TDTile> list)
 	{
@@ -41,7 +44,7 @@ public class BaseCharacter : MonoBehaviour
 
     public int GetCurrentTileIndex()
     {
-        return pathIndex;
+        return currentTileIndex;
     }
 
 	
@@ -64,6 +67,7 @@ public class BaseCharacter : MonoBehaviour
 		if (transform.position == pathList[pathIndex].Pos)
 		{
 			pathIndex++;
+            currentTileIndex = pathList[pathIndex].Index;
 			//_currentMovement++;
 
 			//if (_pathIndex == _pathList.Count || _currentMovement == _maxMovement)

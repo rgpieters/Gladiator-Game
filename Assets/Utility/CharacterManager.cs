@@ -11,7 +11,7 @@ public class CharacterManager : MonoBehaviour
 	void Start ()
 	{
 		loneCharacter = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));
-        loneCharacter.GetComponent<BaseCharacter>().InitializeCharacter();
+        loneCharacter.GetComponent<BaseCharacter>().InitializeCharacter(0);
 	}
 	
 	// Update is called once per frame
