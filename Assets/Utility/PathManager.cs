@@ -66,7 +66,7 @@ public class PathManager : MonoBehaviour
 		for(int i = 1; i < loopIterations; i++)
 		{
 			GameObject tempPathMarker = (GameObject)Instantiate(Resources.Load("Prefabs/PathMarker", typeof(GameObject)));
-			tempPathMarker.transform.position = new Vector3(pathSolution[i].Pos.x, tempPathMarker.transform.position.y, pathSolution[i].Pos.z);
+			tempPathMarker.transform.position = new Vector3(pathSolution[i].Pos.x, pathSolution[i].Pos.y + 0.0001f, pathSolution[i].Pos.z);
 			pathMarkerList.Add(tempPathMarker);
 		}
 	}

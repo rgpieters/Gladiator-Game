@@ -114,10 +114,17 @@
 				}*/
 			}
 		}
-		_tiles[10] = new TDTile(TDTile.TYPE.OCEAN, 10, new UnityEngine.Vector3(0,0,10));
-		_tiles[11] = new TDTile(TDTile.TYPE.MOUNTAIN, 11, new UnityEngine.Vector3(1,0,11));
-		_tiles[12] = new TDTile(TDTile.TYPE.OCEAN, 12, new UnityEngine.Vector3(2,0,12));
-		_tiles[13] = new TDTile (TDTile.TYPE.MOUNTAIN, 13, new UnityEngine.Vector3 (2, 0, 13));
-		_tiles[14] = new TDTile (TDTile.TYPE.GRASSLAND, 14, new UnityEngine.Vector3 (2, 0.5f, 14));
+
+        // ALWAYS ADD 0.5f TO WHATEVER POSITION YOU MANUALLY PUT IN
+
+		_tiles[10] = new TDTile(TDTile.TYPE.OCEAN, 10, new UnityEngine.Vector3(0.5f,0,10.5f));
+		_tiles[11] = new TDTile(TDTile.TYPE.MOUNTAIN, 11, new UnityEngine.Vector3(1.5f,0,11.5f));
+		_tiles[12] = new TDTile(TDTile.TYPE.OCEAN, 12, new UnityEngine.Vector3(2.5f,0,12.5f));
+		_tiles[13] = new TDTile (TDTile.TYPE.MOUNTAIN, 13, new UnityEngine.Vector3 (3.5f, 0, 13.5f));
+		_tiles[14] = new TDTile (TDTile.TYPE.GRASSLAND, 14, new UnityEngine.Vector3 (4.5f, 0.0f, 2.5f));
+
+        //_tiles[1] = new TDTile(TDTile.TYPE.GRASSLAND, 1, new UnityEngine.Vector3(1.5f, 0.5f, 0.5f));
+        _tiles[2] = new TDTile(TDTile.TYPE.GRASSLAND, 2, new UnityEngine.Vector3(2.5f, 1.0f, 0.5f));
+        //_tiles[3] = new TDTile(TDTile.TYPE.GRASSLAND, 3, new UnityEngine.Vector3(3.5f, 0.5f, 0.5f));
     }
 }

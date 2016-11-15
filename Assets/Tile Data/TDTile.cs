@@ -21,8 +21,8 @@ public class TDTile
 	}
 
 	int _nHValue; // Heuristic i.e. Distance from current node to target node
-	int _nGValue; // Movement Cost
-	int _nFValue; // G + H
+	float _nGValue; // Movement Cost
+	float _nFValue; // G + H
 	TDTile _parentTDTile;
 
 	TYPE _tileType;
@@ -82,7 +82,7 @@ public class TDTile
 		}
 	}	
 
-	public int GValue {
+	public float GValue {
 		get {
 			return _nGValue;
 		}
@@ -91,7 +91,7 @@ public class TDTile
 		}
 	}
 
-	public int FValue {
+	public float FValue {
 		get {
 			return _nFValue;
 		}

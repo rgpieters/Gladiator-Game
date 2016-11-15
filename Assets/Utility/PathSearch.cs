@@ -10,15 +10,20 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+ 
 
 public class PathSearch : MonoBehaviour
 {
+    enum HeightAccessibility { TOO_HIGH, REACHABLE, INVALID_TILE }
+
 	TDTile [] _tileNodeList;
 	Heuristic myHeuristic;
 	int mapSize;
 	List<TDTile> closedSet;
 	TileNodePriorityQueue openSet;
 	TDTile goalTile;
+
+    public float tileHeightStep = 0.5f;
 
 	public PathSearch()
 	{
@@ -74,6 +79,14 @@ public class PathSearch : MonoBehaviour
 		start.GValue = 0;
 		start.FValue = start.GValue + myHeuristic.EstimateDistance (start, goal);
 
+        if(IsTileAccessible(goalTile.Index - 1) != HeightAccessibility.REACHABLE &&
+            IsTileAccessible(goalTile.Index + 1) != HeightAccessibility.REACHABLE &&
+            IsTileAccessible(goalTile.Index + mapSize) != HeightAccessibility.REACHABLE &&
+            IsTileAccessible(goalTile.Index - mapSize) != HeightAccessibility.REACHABLE)
+        {
+            goalTile.IsTraversable = false;
+        }
+
 		while(!openSet.Empty())
 		{
 			TDTile current = openSet.Dequeue();
@@ -102,13 +115,25 @@ public class PathSearch : MonoBehaviour
 				TDTile successor = _tileNodeList[successorIndex];
 				if(!closedSet.Contains(successor) && (successor == goalTile || successor.IsTraversable))
 				{
-					int tempGValue = 1; // If i want diagonal then this will need to be 1.4 for diagonals and 1 for straights
+                    float tempGValue = 1.0f; // If diagonal tiles are implemented, this will be either 1.0f for straight on tiles or 1.4f for diagonal
 
-					if(!openSet.Contains(successor) || tempGValue < successor.GValue)
+                    if (successor.Pos.y > current.Pos.y && successor != goalTile)
+                    {
+                        if (successor.Pos.y > current.Pos.y + tileHeightStep)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            tempGValue = 1.4f;
+                        }
+                    }
+
+                    if (!openSet.Contains(successor) || tempGValue < successor.GValue)
 					{
 						successor.ParentTDTile = current;
 						successor.GValue = tempGValue;
-						successor.FValue = tempGValue + myHeuristic.EstimateDistance(successor); // heuristic cost?
+						successor.FValue = tempGValue + (float)myHeuristic.EstimateDistance(successor);
 
 						if(!openSet.Contains(successor))
 						{
@@ -119,4 +144,23 @@ public class PathSearch : MonoBehaviour
 			}
 		}
 	}
+
+    // Checks to see if the goaltile has any tiles adjacent to it that are of proper height to climb up to it
+    HeightAccessibility IsTileAccessible(int adjacentTileIndex)
+    {
+        bool isAdjacentTileRowAbove = (goalTile.Index % mapSize == mapSize - 1) && (adjacentTileIndex % mapSize == 0);
+        bool isAdjacentTileRowBelow = (goalTile.Index % mapSize == 0) && (adjacentTileIndex % mapSize == mapSize - 1);
+
+        if(!isAdjacentTileRowAbove && !isAdjacentTileRowBelow && adjacentTileIndex >= 0)
+        {
+            if (goalTile.Pos.y - tileHeightStep > _tileNodeList[adjacentTileIndex].Pos.y)
+                return HeightAccessibility.TOO_HIGH;
+            else
+                return HeightAccessibility.REACHABLE;
+        }
+        else
+        {
+            return HeightAccessibility.INVALID_TILE;
+        }
+    }
 }
