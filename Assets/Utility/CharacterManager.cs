@@ -4,29 +4,50 @@ using System.Collections.Generic;
 
 public class CharacterManager : MonoBehaviour
 {
-	GameObject loneCharacter;
     int prevCharacterCurrentTileIndex;
+    int currentCharacterIndex;
+    List<GameObject> characterList;
 
 	// Use this for initialization
 	void Start ()
 	{
-		loneCharacter = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));
-        loneCharacter.GetComponent<BaseCharacter>().InitializeCharacter(0);
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        characterList = new List<GameObject>();
+
+		GameObject tempPlayer = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));
+        tempPlayer.GetComponent<BaseCharacter>().InitializeCharacter(0);
+        tempPlayer.GetComponent<BaseCharacter>().IsCharacterTurn = true;
+        characterList.Add(tempPlayer);
+
+        GameObject tempEnemy = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));    // This needs to be an enemy
+        tempEnemy.GetComponent<BaseCharacter>().InitializeCharacter(24);
+        characterList.Add(tempEnemy);
+
+        currentCharacterIndex = 0;
+    }
+
+    // Update is called once per frame
+    void Update ()
 	{
-	    
+	    if(!characterList[currentCharacterIndex].GetComponent<BaseCharacter>().IsCharacterTurn)
+        {
+            currentCharacterIndex++;
+
+            if(currentCharacterIndex >= characterList.Count)
+            {
+                currentCharacterIndex = 0;
+            }
+
+            characterList[currentCharacterIndex].GetComponent<BaseCharacter>().IsCharacterTurn = true;
+        }
 	}
 
     public void SetCharacterPath(List<TDTile> path)
     {
-        loneCharacter.GetComponent<BaseCharacter>().SetPathList(path);
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().SetPathList(path);
     }
 
     public int GetCurrentCharacterTileIndex()
     {
-        return loneCharacter.GetComponent<BaseCharacter>().GetCurrentTileIndex();
+        return characterList[currentCharacterIndex].GetComponent<BaseCharacter>().GetCurrentTileIndex();
     }
 }

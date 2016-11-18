@@ -15,7 +15,13 @@ public class BaseCharacter : MonoBehaviour
 	List<TDTile> pathList;  // This was initially public. I don't know why it would need to be
 	int pathIndex;
     int currentTileIndex;
+    bool isCharacterTurn = false;
 
+    public bool IsCharacterTurn
+    {
+        get { return isCharacterTurn; }
+        set { isCharacterTurn = value; }
+    }
 
 	// Use this for initialization
 	void Start ()
@@ -25,10 +31,14 @@ public class BaseCharacter : MonoBehaviour
 
 	public void InitializeCharacter(int tileIndex) // TODO: Change to protected when classes are inheriting
 	{
-		pathList = new List<TDTile>();
+        TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+        tempMap.tileDataMap.GetTile(tileIndex).IsTraversable = false;
+        transform.position = tempMap.tileDataMap.GetTile(tileIndex).Pos;
+
+
+        pathList = new List<TDTile>();
 		pathIndex = -1;
         currentTileIndex = tileIndex;
-
     }
 
 	public void SetPathList(List<TDTile> list)
@@ -38,8 +48,7 @@ public class BaseCharacter : MonoBehaviour
 
 		pathList.Clear();
 		pathList = list;
-        transform.position = new Vector3(list[0].Pos.x, transform.position.y, list[0].Pos.z);
-		pathIndex = 0;
+        pathIndex = 0;
 	}
 
     public int GetCurrentTileIndex()
@@ -47,54 +56,62 @@ public class BaseCharacter : MonoBehaviour
         return currentTileIndex;
     }
 
-	
 	// Update is called once per frame
 	void Update () // TODO: Change to virtual when classes are inheriting
     {
-        if (pathIndex == -1)
-            return;
-
-		float step = rotSpeed * Time.deltaTime;
-		
-		Vector3 targetDirection = new Vector3(pathList[pathIndex].Pos.x, transform.position.y, pathList[pathIndex].Pos.z) - transform.position; // This was setup with a characterPos variable. Let's see if this actually work for multiple characters
-		Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, step, 0.0f);
-		transform.rotation = Quaternion.LookRotation(newDirection);
-		
-		step = moveSpeed * Time.deltaTime;
-		
-        if(transform.position.y != pathList[pathIndex].Pos.y)
+        if(isCharacterTurn)
         {
-            // This works for going up the object but not down. For now, we're going to not worry about his until we have an animation
-            //transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, pathList[pathIndex].Pos.y, transform.position.z), step);
-            transform.position = Vector3.MoveTowards(transform.position, pathList[pathIndex].Pos, step);
+            if (pathIndex == -1 || pathIndex == pathList.Count)
+                return;
+
+		    float step = rotSpeed * Time.deltaTime;
+		
+		    Vector3 targetDirection = new Vector3(pathList[pathIndex].Pos.x, transform.position.y, pathList[pathIndex].Pos.z) - transform.position; // This was setup with a characterPos variable. Let's see if this actually work for multiple characters
+		    Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, step, 0.0f);
+		    transform.rotation = Quaternion.LookRotation(newDirection);
+		
+		    step = moveSpeed * Time.deltaTime;
+		
+            if(transform.position.y != pathList[pathIndex].Pos.y)
+            {
+                // This works for going up the object but not down. For now, we're going to not worry about his until we have an animation
+                //transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, pathList[pathIndex].Pos.y, transform.position.z), step);
+                transform.position = Vector3.MoveTowards(transform.position, pathList[pathIndex].Pos, step);
+            }
+            else
+            {
+		        transform.position = Vector3.MoveTowards(transform.position, pathList[pathIndex].Pos, step);
+            }
+
+		    if (transform.position == pathList[pathIndex].Pos)
+		    {
+                TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+                tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = true;
+
+                pathIndex++;
+                if(pathIndex != pathList.Count)
+                    currentTileIndex = pathList[pathIndex].Index;
+
+                tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = false;
+                //_currentMovement++;
+
+                //if (_pathIndex == _pathList.Count || _currentMovement == _maxMovement)
+                //{
+                //    _characterTile.IsTraversable = true;
+
+                //    if (_pathIndex == _pathList.Count)
+                //        _characterTile = _pathList[_pathIndex - 1];
+                //    else
+                //        _characterTile = _pathList[_pathIndex - 1];
+
+                //    _characterTile.IsTraversable = false;
+
+                //    GetComponent<Animation>().CrossFade("idle");
+                //    Move = false;
+                //    _characterState = STATE.IDLE;
+                //    return;
+                //}
+            }
         }
-        else
-        {
-		    transform.position = Vector3.MoveTowards(transform.position, pathList[pathIndex].Pos, step);
-        }
-
-		if (transform.position == pathList[pathIndex].Pos)
-		{
-			pathIndex++;
-            currentTileIndex = pathList[pathIndex].Index;
-			//_currentMovement++;
-
-			//if (_pathIndex == _pathList.Count || _currentMovement == _maxMovement)
-			//{
-			//    _characterTile.IsTraversable = true;
-
-			//    if (_pathIndex == _pathList.Count)
-			//        _characterTile = _pathList[_pathIndex - 1];
-			//    else
-			//        _characterTile = _pathList[_pathIndex - 1];
-
-			//    _characterTile.IsTraversable = false;
-
-			//    GetComponent<Animation>().CrossFade("idle");
-			//    Move = false;
-			//    _characterState = STATE.IDLE;
-			//    return;
-			//}
-		}
 	}
 }

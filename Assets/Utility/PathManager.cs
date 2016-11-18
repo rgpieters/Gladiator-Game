@@ -31,8 +31,7 @@ public class PathManager : MonoBehaviour
 
 		if(prevSelectedTileIndex != selectedTileIndex)
 		{
-			//myPathSearch.AStar(tempMap.tileDataMap.GetTile(tempCharacterManager.GetCurrentCharacterTileIndex()), tempMap.tileDataMap.GetTile(selectedTileIndex));
-			myPathSearch.AStar(tempMap.tileDataMap.GetTile(0), tempMap.tileDataMap.GetTile(selectedTileIndex));
+			myPathSearch.AStar(tempMap.tileDataMap.GetTile(tempCharacterManager.GetCurrentCharacterTileIndex()), tempMap.tileDataMap.GetTile(selectedTileIndex));
             pathSolution = myPathSearch.GetSolution();
 
             tempCharacterManager.SetCharacterPath(pathSolution);
