@@ -48,6 +48,10 @@ public class PathSearch : MonoBehaviour
 	public List<TDTile> GetSolution(/*Character.FRIENDFOE friendFoe*/)
 	{
 		List<TDTile> solution = new List<TDTile>();
+
+        if (goalTile.ParentTDTile == null)
+            return solution;
+
 		TDTile currTile = goalTile;
 
 		//if (friendFoe == Character.FRIENDFOE.FOE)

@@ -56,11 +56,30 @@ public class BaseCharacter : MonoBehaviour
         return currentTileIndex;
     }
 
+    public void BeginTurn()
+    {
+        isCharacterTurn = true;
+        TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+        tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = true;
+    }
+
+    void EndTurn()
+    {
+        isCharacterTurn = false;
+        TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+        tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = false;
+    }
+
 	// Update is called once per frame
 	void Update () // TODO: Change to virtual when classes are inheriting
     {
         if(isCharacterTurn)
         {
+            if(Input.GetButtonDown("Enter"))
+            {
+                EndTurn();
+            }
+
             if (pathIndex == -1 || pathIndex == pathList.Count)
                 return;
 
@@ -85,14 +104,16 @@ public class BaseCharacter : MonoBehaviour
 
 		    if (transform.position == pathList[pathIndex].Pos)
 		    {
-                TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
-                tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = true;
+                //TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+                //tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = true;
 
                 pathIndex++;
                 if(pathIndex != pathList.Count)
                     currentTileIndex = pathList[pathIndex].Index;
 
-                tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = false;
+                //tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = false;
+
+
                 //_currentMovement++;
 
                 //if (_pathIndex == _pathList.Count || _currentMovement == _maxMovement)

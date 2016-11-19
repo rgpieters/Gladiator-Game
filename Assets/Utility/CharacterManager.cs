@@ -15,7 +15,7 @@ public class CharacterManager : MonoBehaviour
 
 		GameObject tempPlayer = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));
         tempPlayer.GetComponent<BaseCharacter>().InitializeCharacter(0);
-        tempPlayer.GetComponent<BaseCharacter>().IsCharacterTurn = true;
+        tempPlayer.GetComponent<BaseCharacter>().BeginTurn();
         characterList.Add(tempPlayer);
 
         GameObject tempEnemy = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));    // This needs to be an enemy
@@ -37,7 +37,7 @@ public class CharacterManager : MonoBehaviour
                 currentCharacterIndex = 0;
             }
 
-            characterList[currentCharacterIndex].GetComponent<BaseCharacter>().IsCharacterTurn = true;
+            characterList[currentCharacterIndex].GetComponent<BaseCharacter>().BeginTurn();
         }
 	}
 
