@@ -66,12 +66,28 @@
     <Compile Include="Assets\Tile Data\TDMap.cs" />
     <Compile Include="Assets\Tile Data\TDTile.cs" />
     <Compile Include="Assets\Tile Graphics\TGMap.cs" />
+    <Compile Include="Assets\UI\Scripts\ActiveStateToggler.cs" />
+    <Compile Include="Assets\UI\Scripts\ApplicationManager.cs" />
+    <Compile Include="Assets\UI\Scripts\ChangeColor.cs" />
+    <Compile Include="Assets\UI\Scripts\DragMe.cs" />
+    <Compile Include="Assets\UI\Scripts\DragPanel.cs" />
+    <Compile Include="Assets\UI\Scripts\DropMe.cs" />
+    <Compile Include="Assets\UI\Scripts\PanelManager.cs" />
+    <Compile Include="Assets\UI\Scripts\ResizePanel.cs" />
+    <Compile Include="Assets\UI\Scripts\ScrollDetailTexture.cs" />
+    <Compile Include="Assets\UI\Scripts\ShowSliderValue.cs" />
+    <Compile Include="Assets\UI\Scripts\TiltWindow.cs" />
     <Compile Include="Assets\Utility\CharacterManager.cs" />
     <Compile Include="Assets\Utility\Heuristic.cs" />
     <Compile Include="Assets\Utility\MouseManager.cs" />
     <Compile Include="Assets\Utility\PathManager.cs" />
     <Compile Include="Assets\Utility\PathSearch.cs" />
     <Compile Include="Assets\Utility\TileNodePriorityQueue.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\UI\Fonts\Jupiter\LICENSE.txt" />
+    <None Include="Assets\UI\Materials\UI-Default-No-Alpha.shader" />
+    <None Include="Assets\UI\Textures and Sprites\SF UI\Background\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
