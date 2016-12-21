@@ -11,8 +11,16 @@ public class PathManager : MonoBehaviour
 	int prevSelectedTileIndex;
     int prevCharacterileIndex;
 	float tileSizeX;
+    bool showMarker;
+    bool moveCharacter;
 
-	void Start ()
+    public bool ShowMarker
+    {
+        get { return showMarker; }
+        set { showMarker = value; }
+    }
+
+    void Start ()
 	{
 		selectedTileIndex = 0;
 
@@ -22,7 +30,13 @@ public class PathManager : MonoBehaviour
 		myPathSearch = GetComponent<PathSearch>();
 		pathSolution = new List<TDTile>();
 		pathMarkerList = new List<GameObject>();
-	}
+
+        Component selectedTile = transform.FindChild("SelectedTile");
+        selectedTile.GetComponent<Renderer>().enabled = false;
+
+        showMarker = false;
+        moveCharacter = false;
+    }
 	
 	void Update ()
 	{
@@ -70,16 +84,35 @@ public class PathManager : MonoBehaviour
 		}
 	}
 
+    public void ToggleMarker()
+    {
+        showMarker = !showMarker;
+    }
+
+    public void ToggleMoveCharacter()
+    {
+        moveCharacter = !moveCharacter;
+    }
+
 	public void SetSelectedTile(int x, int z)
 	{
+		TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
+		Component selectedTile = transform.FindChild("SelectedTile");
+
+        if (!showMarker)
+        {
+            selectedTile.GetComponent<Renderer>().enabled = false;
+            return;
+        }
+        else
+        {
+            selectedTile.GetComponent<Renderer>().enabled = true;
+        }
+
 		prevSelectedTileIndex = selectedTileIndex;
 		selectedTileIndex = (int)(x + (z * tileSizeX));
 
-		TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
 		selectedTileData = tempMap.tileDataMap.GetTile(selectedTileIndex);
-
-
-		Component selectedTile = transform.FindChild("SelectedTile");
 		selectedTile.transform.position = new Vector3(x + 0.5f, tempMap.tileDataMap.GetTile(selectedTileIndex).Pos.y + 0.0001f, z + 0.5f);
 
 		if(selectedTileData.IsTraversable)
@@ -91,4 +124,12 @@ public class PathManager : MonoBehaviour
 			selectedTile.GetComponent<Renderer>().material.color = Color.red;
 		}
 	}
+
+    public void ClearPath()
+    {
+        for (int i = 0; i < pathMarkerList.Count; i++)
+        {
+            Destroy(pathMarkerList[i]);
+        }
+    }
 }

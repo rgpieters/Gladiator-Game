@@ -13,9 +13,11 @@ public class BaseCharacter : MonoBehaviour
 	public float moveSpeed = 1.0f;
     public float rotSpeed = 10.0f;
 	List<TDTile> pathList;  // This was initially public. I don't know why it would need to be
+    List<BaseSkill> skillsList;
 	int pathIndex;
     int currentTileIndex;
     bool isCharacterTurn = false;
+    bool moveCharacter = false;
 
     public bool IsCharacterTurn
     {
@@ -35,10 +37,19 @@ public class BaseCharacter : MonoBehaviour
         tempMap.tileDataMap.GetTile(tileIndex).IsTraversable = false;
         transform.position = tempMap.tileDataMap.GetTile(tileIndex).Pos;
 
-
         pathList = new List<TDTile>();
 		pathIndex = -1;
         currentTileIndex = tileIndex;
+
+        skillsList = new List<BaseSkill>();
+
+        BaseSkill tempSkill = new BaseSkill();
+        tempSkill.SkillName = "Skill Number 1";
+        BaseSkill tempSkill2 = new BaseSkill();
+        tempSkill2.SkillName = "Skill Number 2";
+
+        skillsList.Add(tempSkill);
+        skillsList.Add(tempSkill2);
     }
 
 	public void SetPathList(List<TDTile> list)
@@ -63,11 +74,27 @@ public class BaseCharacter : MonoBehaviour
         tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = true;
     }
 
-    void EndTurn()
+    public void Attack()
+    {
+        Debug.Log("Need target to attack.");
+    }
+
+    public void Skills()
+    {
+        Debug.Log("Skills menu should open.");
+    }
+
+    public void Guard()
+    {
+        Debug.Log("Character is now guarding.");
+    }
+
+    public void EndTurn()
     {
         isCharacterTurn = false;
         TGMap tempMap = (TGMap)FindObjectOfType(typeof(TGMap));
         tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = false;
+        moveCharacter = false;
     }
 
 	// Update is called once per frame
@@ -75,10 +102,18 @@ public class BaseCharacter : MonoBehaviour
     {
         if(isCharacterTurn)
         {
-            if(Input.GetButtonDown("Enter"))
+            if (Input.GetButtonDown("Mouse Left Button"))
             {
-                EndTurn();
+                PathManager tempPathManager = (PathManager)FindObjectOfType(typeof(PathManager));
+
+                if(tempPathManager.ShowMarker)
+                {
+                    moveCharacter = true;
+                }
             }
+
+            if (!moveCharacter)
+                return;
 
             if (pathIndex == -1 || pathIndex == pathList.Count)
                 return;
@@ -109,7 +144,15 @@ public class BaseCharacter : MonoBehaviour
 
                 pathIndex++;
                 if(pathIndex != pathList.Count)
+                {
                     currentTileIndex = pathList[pathIndex].Index;
+                }
+                else
+                {
+                    PathManager tempPathManager = (PathManager)FindObjectOfType(typeof(PathManager));
+                    tempPathManager.ClearPath();
+                    moveCharacter = false;
+                }
 
                 //tempMap.tileDataMap.GetTile(currentTileIndex).IsTraversable = false;
 

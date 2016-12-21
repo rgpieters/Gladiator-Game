@@ -18,9 +18,9 @@ public class CharacterManager : MonoBehaviour
         tempPlayer.GetComponent<BaseCharacter>().BeginTurn();
         characterList.Add(tempPlayer);
 
-        GameObject tempEnemy = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));    // This needs to be an enemy
-        tempEnemy.GetComponent<BaseCharacter>().InitializeCharacter(24);
-        characterList.Add(tempEnemy);
+        //GameObject tempEnemy = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));    // This needs to be an enemy
+        //tempEnemy.GetComponent<BaseCharacter>().InitializeCharacter(24);
+        //characterList.Add(tempEnemy);
 
         currentCharacterIndex = 0;
     }
@@ -49,5 +49,28 @@ public class CharacterManager : MonoBehaviour
     public int GetCurrentCharacterTileIndex()
     {
         return characterList[currentCharacterIndex].GetComponent<BaseCharacter>().GetCurrentTileIndex();
+    }
+
+    public void CharacterAttack()
+    {
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().Attack();
+    }
+
+    public void CharacterSkills(Object SkillsButton)
+    {
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().Skills();
+
+
+
+    }
+
+    public void CharacterGuard()
+    {
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().Guard();
+    }
+
+    public void CharacterEndTurn()
+    {
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().EndTurn();
     }
 }

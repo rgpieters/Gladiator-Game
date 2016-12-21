@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Characters\BaseCharacter.cs" />
+    <Compile Include="Assets\Characters\BaseSkill.cs" />
     <Compile Include="Assets\Tile Data\TDMap.cs" />
     <Compile Include="Assets\Tile Data\TDTile.cs" />
     <Compile Include="Assets\Tile Graphics\TGMap.cs" />
