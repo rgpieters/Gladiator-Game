@@ -18,9 +18,9 @@ public class CharacterManager : MonoBehaviour
         tempPlayer.GetComponent<BaseCharacter>().BeginTurn();
         characterList.Add(tempPlayer);
 
-        //GameObject tempEnemy = (GameObject)Instantiate(Resources.Load("Prefabs/Character"));    // This needs to be an enemy
-        //tempEnemy.GetComponent<BaseCharacter>().InitializeCharacter(24);
-        //characterList.Add(tempEnemy);
+        GameObject tempEnemy = (GameObject)Instantiate(Resources.Load("Prefabs/Basic Enemy"));
+        tempEnemy.GetComponent<BaseCharacter>().InitializeCharacter(9);
+        characterList.Add(tempEnemy);
 
         currentCharacterIndex = 0;
     }
@@ -56,12 +56,9 @@ public class CharacterManager : MonoBehaviour
         characterList[currentCharacterIndex].GetComponent<BaseCharacter>().Attack();
     }
 
-    public void CharacterSkills(Object SkillsButton)
+    public List<BaseSkill> CharacterSkills()
     {
-        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().Skills();
-
-
-
+        return characterList[currentCharacterIndex].GetComponent<BaseCharacter>().SkillsList;
     }
 
     public void CharacterGuard()
@@ -72,5 +69,17 @@ public class CharacterManager : MonoBehaviour
     public void CharacterEndTurn()
     {
         characterList[currentCharacterIndex].GetComponent<BaseCharacter>().EndTurn();
+        PathManager tempManager = (PathManager)FindObjectOfType(typeof(PathManager));
+        tempManager.ToggleMarker();
+    }
+
+    public void PointerEnterMenu()
+    {
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().IsInMenu = true;
+    }
+
+    public void PointerExitMenu()
+    {
+        characterList[currentCharacterIndex].GetComponent<BaseCharacter>().IsInMenu = false;
     }
 }

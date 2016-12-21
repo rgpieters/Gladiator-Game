@@ -87,6 +87,8 @@ public class PathManager : MonoBehaviour
     public void ToggleMarker()
     {
         showMarker = !showMarker;
+        Component selectedTile = transform.FindChild("SelectedTile");
+        selectedTile.GetComponent<Renderer>().enabled = showMarker;
     }
 
     public void ToggleMoveCharacter()

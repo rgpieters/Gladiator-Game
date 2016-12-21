@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Assets\Characters\BaseCharacter.cs" />
     <Compile Include="Assets\Characters\BaseSkill.cs" />
+    <Compile Include="Assets\Characters\BasicCharacter.cs" />
+    <Compile Include="Assets\Characters\BasicEnemy.cs" />
     <Compile Include="Assets\Tile Data\TDMap.cs" />
     <Compile Include="Assets\Tile Data\TDTile.cs" />
     <Compile Include="Assets\Tile Graphics\TGMap.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Assets\UI\Scripts\ResizePanel.cs" />
     <Compile Include="Assets\UI\Scripts\ScrollDetailTexture.cs" />
     <Compile Include="Assets\UI\Scripts\ShowSliderValue.cs" />
+    <Compile Include="Assets\UI\Scripts\SkillsButton.cs" />
     <Compile Include="Assets\UI\Scripts\TiltWindow.cs" />
     <Compile Include="Assets\Utility\CharacterManager.cs" />
     <Compile Include="Assets\Utility\Heuristic.cs" />
